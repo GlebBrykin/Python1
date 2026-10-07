@@ -1,6 +1,5 @@
 import math
 
-
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},  # noqa: E501
@@ -119,7 +118,7 @@ def format_report_line(movie):
 
 # --- Этап 5. Списки ---
 def titles_sorted_by_rating(movies_list):
-    return [m["title"] for m in sorted(movies_list, key=lambda x: x["rating"], reverse=True)]
+    return [m["title"] for m in sorted(movies_list, key=lambda x: x["rating"], reverse=True)] # noqa: E501
 
 
 def top_n_by_rating(movies_list, n=3):
@@ -182,3 +181,42 @@ def iter_high_rated(movies_list, min_rating=8.0):
 
 def sum_high_rated_duration(movies_list):
     return sum(m["duration_min"] for m in movies_list if m["rating"] > 7)
+
+
+# --- Этап 9. Итоговый отчет ---
+def build_report(movies_list):
+    avg_rating = average_rating(movies_list)
+    _, _, avg_age = catalog_age_stats(movies_list)
+
+    print("ОТЧЕТ ПО КАТАЛОГУ")
+    print(f"Средний рейтинг: {avg_rating}")
+    print(f"Средний возраст фильмов: {avg_age} лет\n")
+
+    print("Топ-3 фильма:")
+    top_3 = top_n_by_rating(movies_list, 3)
+    for title, rating in top_3:
+        movie = next(m for m in movies_list if m["title"] == title)
+        print(f"  {format_report_line(movie)}")
+
+    print("\nФильмов по жанрам:")
+    genre_counts = count_by_genre(movies_list)
+    sorted_genres = sorted(genre_counts.items(), key=lambda x: x[1], reverse=True)
+    for genre, count in sorted_genres:
+        print(f"  {genre} — {count}")
+
+    all_g = all_genres(movies_list)
+    print(f"\nВсе жанры каталога: {', '.join(sorted(list(all_g)))}")
+
+
+if __name__ == "__main__":
+    print("--- Демонстрация циклов ---")
+    print_non_comedy_movies(movies)
+    find_first_masterpiece(movies)
+    print(f"Длинных фильмов (>120 мин): {count_long_movies(movies)}\n")
+
+    print("--- Демонстрация генераторов ---")
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+    print(f"Суммарная длительность фильмов с рейтингом > 7: {sum_high_rated_duration(movies)}\n") # noqa: E501
+
+    build_report(movies)
