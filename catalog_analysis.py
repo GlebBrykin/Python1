@@ -91,3 +91,27 @@ def count_long_movies(movies_list, threshold=120):
         if m["duration_min"] > threshold:
             count += 1
     return count
+
+
+# --- Этап 4. Строки ---
+def normalize_title(title):
+    words = title.split(" ")
+    normalized = []
+    for word in words:
+        if not word:
+            continue
+        normalized.append(word[0].upper() + word[1:])
+    return " ".join(normalized)
+
+
+def make_slug(title):
+    return title.lower().replace(" ", "-")
+
+
+def format_report_line(movie):
+    title = normalize_title(movie["title"])
+    year = movie["year"]
+    rating = movie["rating"]
+    duration = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(list(movie["genres"])))
+    return f'"{title}" ({year}) — {rating}/10, {duration}, жанры: {genres}'
