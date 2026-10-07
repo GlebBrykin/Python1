@@ -149,3 +149,25 @@ def actor_filmography(movies_list):
 def above_average_ratings(movies_list):
     avg = average_rating(movies_list)
     return {m["title"]: m["rating"] for m in movies_list if m["rating"] > avg}
+
+
+# --- Этап 7. Множества ---
+def all_genres(movies_list):
+    genres = set()
+    for m in movies_list:
+        genres |= m["genres"]
+    return genres
+
+
+def common_actors(movie1, movie2):
+    return set(movie1["actors"]) & set(movie2["actors"])
+
+
+def genres_only_in_one(movies_a, movies_b):
+    genres_a = set()
+    for m in movies_a:
+        genres_a |= m["genres"]
+    genres_b = set()
+    for m in movies_b:
+        genres_b |= m["genres"]
+    return genres_a - genres_b
