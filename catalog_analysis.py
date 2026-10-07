@@ -171,3 +171,14 @@ def genres_only_in_one(movies_a, movies_b):
     for m in movies_b:
         genres_b |= m["genres"]
     return genres_a - genres_b
+
+
+# --- Этап 8. Итераторы и генераторы ---
+def iter_high_rated(movies_list, min_rating=8.0):
+    for m in movies_list:
+        if m["rating"] >= min_rating:
+            yield m
+
+
+def sum_high_rated_duration(movies_list):
+    return sum(m["duration_min"] for m in movies_list if m["rating"] > 7)
