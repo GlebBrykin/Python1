@@ -23,3 +23,22 @@ movies = [
     {"title": "Red Harbor", "year": 2018, "genres": {"action", "thriller"},
      "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
 ]
+
+
+# --- Этап 1. Переменные, числа, math ---
+def average_rating(movies_list):
+    return round(sum(m["rating"] for m in movies_list) / len(movies_list), 1)
+
+
+def catalog_age_stats(movies_list, current_year=2026):
+    ages = [current_year - m["year"] for m in movies_list]
+    oldest = max(ages)
+    newest = min(ages)
+    avg = math.ceil(sum(ages) / len(ages))
+    return oldest, newest, avg
+
+
+def duration_in_hours(minutes):
+    hours = minutes // 60
+    mins = minutes % 60
+    return f"{hours}ч {mins}м"
